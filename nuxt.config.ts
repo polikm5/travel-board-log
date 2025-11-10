@@ -14,4 +14,8 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  colorMode: {
+    preference: "light",
+    dataValue: "theme",
+  },
 });
