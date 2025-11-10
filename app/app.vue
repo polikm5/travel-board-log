@@ -6,21 +6,32 @@ console.log(colorMode.preference);
 
 <template>
   <div>
-    <h1>Color mode: {{ $colorMode.value }}</h1>
-    <select v-model="$colorMode.preference">
-      <option value="system">
-        System
-      </option>
-      <option value="light">
-        Light
-      </option>
-      <option value="dark">
-        Dark
-      </option>
-      <option value="sepia">
-        Sepia
-      </option>
-    </select>
+    <div class="navbar bg-base-100 shadow-sm">
+      <div class="navbar-start">
+        <div class="text-xl">
+          TravelLog
+        </div>
+      </div>
+      <div class="navbar-end">
+        <a class="btn">Sign in</a>
+      </div>
+    </div>
+    <div class="hero bg-base-200 min-h-120 container mx-auto mt-4">
+      <div class="hero-content text-center">
+        <div class="max-w-md">
+          <h1 class="text-5xl font-bold">
+            Travel Log
+          </h1>
+          <p class="py-6">
+            Keep track of your travels and adventures.Add locations,photos,and notes to create a digital journal of your journeys.
+          </p>
+          <button class="btn btn-primary">
+            Sign in
+            <Icon name="tabler:brand-github" size="1.5em" />
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
