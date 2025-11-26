@@ -13,7 +13,7 @@
       <div class="mr-4">
         <app-theme-toggle />
       </div>
-      <a class="btn">Sign in<Icon name="tabler:brand-github" size="1.5em" /></a>
+      <AuthButton />
     </div>
   </div>
 </template>
