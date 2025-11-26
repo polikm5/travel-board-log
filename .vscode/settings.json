@@ -9,6 +9,9 @@
     "source.organizeImports": "never"
   },
 
+  // if editor's eslint version different from local version,then assign it
+  "eslint.runtime": "C:\\Users\\86442\\AppData\\Roaming\\nvm\\v24.11.0\\node.exe",
+
   "files.associations": {
     "*.css": "tailwindcss"
   },
