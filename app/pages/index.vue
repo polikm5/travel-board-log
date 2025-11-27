@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -11,15 +11,17 @@
             Travel Log
           </h1>
           <p class="py-6">
-            Keep track of your travels and adventures.Add locations,photos,and notes to create a digital journal of your journeys.
+            Keep track of your travels and adventures.Add locations,photos,and notes to create a digital journal of your
+            journeys.
           </p>
-          <AuthButton />
+          <AuthButton v-if="authStore.data" />
+          <NuxtLink to="/dashboard" class="btn btn-primary">
+            Start Logging
+          </NuxtLink>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>
