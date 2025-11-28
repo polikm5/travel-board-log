@@ -6,7 +6,9 @@
   <div class="navbar bg-base-300 shadow-sm">
     <div class="navbar-start">
       <div class="text-xl">
-        TravelLog
+        <NuxtLink to="/" class="btn btn-primary">
+          TravelLog
+        </NuxtLink>
       </div>
     </div>
     <div class="navbar-end">
