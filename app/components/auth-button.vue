@@ -3,18 +3,18 @@ const authStore = useAuthStore();
 </script>
 
 <template>
-  <div v-if="!authStore.loading && authStore.data?.user" class="dropdown dropdown-end">
+  <div v-if="!authStore.loading && authStore.user" class="dropdown dropdown-end">
     <div
       tabindex="0"
       role="button"
       class="btn m-1"
     >
-      <div class="avatar">
-        <div v-if="authStore.data.user.image" class="w-6 rounded-full">
-          <img :src="authStore.data.user.image" :alt="authStore.data.user.name">
+      <div v-if="authStore.user.image" class="avatar">
+        <div class="w-6 rounded-full">
+          <img :src="authStore.user.image" :alt="authStore.user.name">
         </div>
       </div>
-      {{ authStore.data.user.name }}
+      {{ authStore.user.name }}
     </div>
     <ul tabindex="-1" class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-sm">
       <li>

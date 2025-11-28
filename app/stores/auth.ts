@@ -3,9 +3,23 @@ import { createAuthClient } from "better-auth/vue";
 const authClient = createAuthClient();
 
 export const useAuthStore = defineStore("useAuthStore", () => {
-  const session = authClient.useSession();
-  const data = computed(() => session.value?.data);
-  const loading = computed(() => session.value.isPending || session.value.isRefetching);
+  const session = ref<Awaited<ReturnType<typeof authClient.useSession>> | null>(null);
+  const relativeFetch = ((url: string, opts?: any) => {
+    try {
+      if (url.startsWith("http"))
+        url = new URL(url).pathname;
+    }
+    catch {}
+    return useFetch(url, opts);
+  }) as any;
+  async function init() {
+    const data = await authClient.useSession(relativeFetch);
+    session.value = data;
+  }
+  const user = computed(() => {
+    return session.value?.data?.user;
+  });
+  const loading = computed(() => session.value?.isPending);
   async function signIn() {
     await authClient.signIn.social({
       provider: "github",
@@ -21,7 +35,8 @@ export const useAuthStore = defineStore("useAuthStore", () => {
 
   return {
     loading,
-    data,
+    user,
+    init,
     signIn,
     signOut,
   };

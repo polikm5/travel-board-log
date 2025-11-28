@@ -1,5 +1,8 @@
 <script setup lang="ts">
-
+const authStore = useAuthStore();
+await authStore.init();
+// const { data: sessionData } = await useAsyncData("auth-session", () => authStore.init());
+// console.log(sessionData);
 </script>
 
 <template>
