@@ -20,6 +20,12 @@ dependencies:
   '@tailwindcss/vite':
     specifier: ^4.1.17
     version: 4.1.17(vite@7.2.4)
+  '@vee-validate/nuxt':
+    specifier: ^4.15.1
+    version: 4.15.1(vue@3.5.22)
+  '@vee-validate/zod':
+    specifier: ^4.15.1
+    version: 4.15.1(vue@3.5.22)(zod@4.1.12)
   better-auth:
     specifier: ^1.3.34
     version: 1.3.34(vue@3.5.22)
@@ -32,6 +38,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.44.7
     version: 0.44.7(@libsql/client@0.15.15)(kysely@0.28.8)
+  drizzle-zod:
+    specifier: ^0.8.3
+    version: 0.8.3(drizzle-orm@0.44.7)(zod@4.1.12)
   nuxt:
     specifier: ^4.2.0
     version: 4.2.0(@libsql/client@0.15.15)(@types/node@24.10.0)(@vue/compiler-sfc@3.5.25)(drizzle-orm@0.44.7)(eslint@9.39.1)(tsx@4.20.6)(typescript@5.9.3)(vite@7.2.4)
@@ -41,6 +50,9 @@ dependencies:
   tailwindcss:
     specifier: ^4.1.17
     version: 4.1.17
+  vee-validate:
+    specifier: ^4.15.1
+    version: 4.15.1(vue@3.5.22)
   vue:
     specifier: ^3.5.22
     version: 3.5.22(typescript@5.9.3)
@@ -3844,6 +3856,29 @@ packages:
     dev: true
     optional: true
 
+  /@vee-validate/nuxt@4.15.1(vue@3.5.22):
+    resolution: {integrity: sha512-vy+BYUmwy7d01js8jg3qApyrE8/nJHbHvPZNYZSe+hTQEblNqyVt+MnD1incyxMCcivED8FX5w4rjxdoUn7iMQ==}
+    dependencies:
+      '@nuxt/kit': 3.20.1
+      local-pkg: 0.5.1
+      vee-validate: 4.15.1(vue@3.5.22)
+    transitivePeerDependencies:
+      - magicast
+      - vue
+    dev: false
+
+  /@vee-validate/zod@4.15.1(vue@3.5.22)(zod@4.1.12):
+    resolution: {integrity: sha512-329Z4TDBE5Vx0FdbA8S4eR9iGCFFUNGbxjpQ20ff5b5wGueScjocUIx9JHPa79LTG06RnlUR4XogQsjN4tecKA==}
+    peerDependencies:
+      zod: ^3.24.0
+    dependencies:
+      type-fest: 4.41.0
+      vee-validate: 4.15.1(vue@3.5.22)
+      zod: 4.1.12
+    transitivePeerDependencies:
+      - vue
+    dev: false
+
   /@vercel/nft@0.30.4(rollup@4.53.3):
     resolution: {integrity: sha512-wE6eAGSXScra60N2l6jWvNtVK0m+sh873CpfZW4KI2v8EHuUQp+mSEi4T+IcdPCSEDgCdAS/7bizbhQlkjzrSA==}
     engines: {node: '>=18'}
@@ -5184,6 +5219,16 @@ packages:
     dependencies:
       '@libsql/client': 0.15.15
       kysely: 0.28.8
+    dev: false
+
+  /drizzle-zod@0.8.3(drizzle-orm@0.44.7)(zod@4.1.12):
+    resolution: {integrity: sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: ^3.25.0 || ^4.0.0
+    dependencies:
+      drizzle-orm: 0.44.7(@libsql/client@0.15.15)(kysely@0.28.8)
+      zod: 4.1.12
     dev: false
 
   /duplexer@0.1.2:
@@ -6839,6 +6884,14 @@ packages:
     resolution: {integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: true
+
+  /local-pkg@0.5.1:
+    resolution: {integrity: sha512-9rrA30MRRP3gBD3HTGnC6cDFpaE1kVDWxWgqWJUN0RvDNAo+Nz/9GxB+nHOH0ifbVFy0hSA1V6vFDvnx54lTEQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      mlly: 1.8.0
+      pkg-types: 1.3.1
+    dev: false
 
   /local-pkg@1.1.2:
     resolution: {integrity: sha512-arhlxbFRmoQHl33a0Zkle/YWlmNwoyt6QNZEIJcqNbdrsix5Lvc4HyyI3EnwxTYlZYc32EbYrQ8SzEZ7dqgg9A==}
@@ -9281,6 +9334,11 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
 
+  /type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
+    engines: {node: '>=16'}
+    dev: false
+
   /type-fest@5.2.0:
     resolution: {integrity: sha512-xxCJm+Bckc6kQBknN7i9fnP/xobQRsRQxR01CztFkp/h++yfVxUUcmMgfR2HttJx/dpWjS9ubVuyspJv24Q9DA==}
     engines: {node: '>=20'}
@@ -9589,6 +9647,16 @@ packages:
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  /vee-validate@4.15.1(vue@3.5.22):
+    resolution: {integrity: sha512-DkFsiTwEKau8VIxyZBGdO6tOudD+QoUBPuHj3e6QFqmbfCRj1ArmYWue9lEp6jLSWBIw4XPlDLjFIZNLdRAMSg==}
+    peerDependencies:
+      vue: ^3.4.26
+    dependencies:
+      '@vue/devtools-api': 7.7.9
+      type-fest: 4.41.0
+      vue: 3.5.22(typescript@5.9.3)
+    dev: false
 
   /vite-dev-rpc@1.1.0(vite@7.2.4):
     resolution: {integrity: sha512-pKXZlgoXGoE8sEKiKJSng4hI1sQ4wi5YT24FCrwrLt6opmkjlqPPVmiPWWJn8M8byMxRGzp1CrFuqQs4M/Z39A==}
