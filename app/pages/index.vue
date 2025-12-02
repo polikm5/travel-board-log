@@ -15,7 +15,7 @@ const authStore = useAuthStore();
             journeys.
           </p>
           <NuxtLink
-            v-if="authStore.data"
+            v-if="authStore.user"
             to="/dashboard"
             class="btn btn-primary"
           >
