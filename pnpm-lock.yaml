@@ -41,6 +41,9 @@ dependencies:
   drizzle-zod:
     specifier: ^0.8.3
     version: 0.8.3(drizzle-orm@0.44.7)(zod@4.1.12)
+  nanoid:
+    specifier: ^5.1.6
+    version: 5.1.6
   nuxt:
     specifier: ^4.2.0
     version: 4.2.0(@libsql/client@0.15.15)(@types/node@24.10.0)(@vue/compiler-sfc@3.5.25)(drizzle-orm@0.44.7)(eslint@9.39.1)(tsx@4.20.6)(typescript@5.9.3)(vite@7.2.6)
@@ -50,6 +53,9 @@ dependencies:
   pinia:
     specifier: ^3.0.4
     version: 3.0.4(typescript@5.9.3)(vue@3.5.22)
+  slug:
+    specifier: ^11.0.1
+    version: 11.0.1
   tailwindcss:
     specifier: ^4.1.17
     version: 4.1.17
@@ -76,6 +82,9 @@ devDependencies:
   '@types/node':
     specifier: ^24.10.0
     version: 24.10.0
+  '@types/slug':
+    specifier: ^5.0.9
+    version: 5.0.9
   drizzle-kit:
     specifier: ^0.31.6
     version: 0.31.6
@@ -3531,6 +3540,10 @@ packages:
   /@types/resolve@1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
     dev: false
+
+  /@types/slug@5.0.9:
+    resolution: {integrity: sha512-6Yp8BSplP35Esa/wOG1wLNKiqXevpQTEF/RcL/NV6BBQaMmZh4YlDwCgrrFSoUE4xAGvnKd5c+lkQJmPrBAzfQ==}
+    dev: true
 
   /@types/unist@3.0.3:
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -8946,6 +8959,11 @@ packages:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 5.1.0
     dev: true
+
+  /slug@11.0.1:
+    resolution: {integrity: sha512-VrM060OM/E7rdLQSnp6JHrzFfJFmqQBp0+TMhZStnEB8PfNliaZ9UWYjTHGHLUFVJorZ8TjVd/aKvIxHWU2O7g==}
+    hasBin: true
+    dev: false
 
   /smob@1.5.0:
     resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==}
