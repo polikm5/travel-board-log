@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm run migrate:db && pnpm run build",
+  "installCommand": "pnpm install",
+  "outputDirectory": ".output",
+  "env": {
+    "TURSO_DATABASE_URL": "@turso_database_url",
+    "TURSO_AUTH_TOKEN": "@turso_auth_token"
+  }
+}
