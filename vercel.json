@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm run build",
+  "buildCommand": "pnpm run migrate:db",
   "installCommand": "pnpm install",
   "outputDirectory": ".output"
 }
