@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { FetchError } from "ofetch";
 
+import { InsertLocation } from "~~/lib/db/schema";
 import { useForm } from "vee-validate";
 
 const { handleSubmit, errors, meta, setErrors } = useForm({
-//   validationSchema: toTypedSchema(InsertLocation),
+  validationSchema: toTypedSchema(InsertLocation),
 });
 const submitError = ref("");
 const loading = ref(false);
