@@ -9,11 +9,14 @@ const { handleSubmit, errors, meta, setErrors } = useForm({
 const submitError = ref("");
 const loading = ref(false);
 const submitted = ref(false);
+
+const { $csrfFetch } = useNuxtApp();
+
 const onSubmit = handleSubmit(async (values) => {
   try {
     submitError.value = "";
     loading.value = true;
-    await $fetch("/api/locations", {
+    await $csrfFetch("/api/locations", {
       method: "post",
       body: values,
     });
