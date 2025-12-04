@@ -2,12 +2,14 @@ import db from "~~/lib/db";
 import { InsertLocation, location } from "~~/lib/db/schema";
 
 export default defineEventHandler(async (event) => {
+  // 调取接口时 先检查是否已登录
   if (!event.context.user) {
     return sendError(event, createError({
       statusCode: 401,
       statusMessage: "Unauthorized",
     }));
   }
+  // 后端做校验
   const result = await readValidatedBody(event, InsertLocation.safeParse);
 
   if (!result.success) {

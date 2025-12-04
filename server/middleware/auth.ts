@@ -4,6 +4,7 @@ export default defineEventHandler(async (event) => {
   const session = await auth.api.getSession({
     headers: event.headers,
   });
+  // 在event.context挂载需要的数据 后面接口方便使用
   event.context.user = session?.user;
   if (event.path.startsWith("/dashboard")) {
     if (!session) {
