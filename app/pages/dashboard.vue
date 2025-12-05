@@ -71,8 +71,9 @@ function sideBarState() {
         />
       </div>
     </div>
-    <div class="flex-1 p-16">
-      <NuxtPage />
+    <div class="flex flex-1 p-8 flex-col">
+      <NuxtPage class="mb-6" />
+      <app-map class="flex-1" />
     </div>
   </div>
 </template>

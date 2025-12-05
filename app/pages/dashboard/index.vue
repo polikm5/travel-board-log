@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-1 h-full p-6 ">
+  <div class="flex flex-1 h-full">
     <div v-if="status === 'pending'" class="flex flex-1 h-full justify-center items-center">
       <span class="loading loading-spinner loading-lg" />
     </div>
