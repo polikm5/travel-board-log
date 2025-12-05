@@ -48,7 +48,7 @@ function sideBarState() {
         />
       </div>
     </div>
-    <div class="flex-1">
+    <div class="flex-1 p-16">
       <NuxtPage />
     </div>
   </div>
