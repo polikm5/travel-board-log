@@ -18,6 +18,7 @@
     "studio:db": "drizzle-kit studio"
   },
   "dependencies": {
+    "@indoorequal/vue-maplibre-gl": "^8.4.2",
     "@libsql/client": "^0.15.15",
     "@nuxt/icon": "2.1.0",
     "@nuxtjs/color-mode": "3.5.2",
