@@ -106,9 +106,9 @@ onBeforeRouteLeave(() => {
         :disabled="loading"
       />
       <div class="flex footer-button justify-end gap-2 mt-2">
-        <button
+        <div
           class="btn btn-outline"
-          :disabled="loading"
+          :class="{ 'btn-disabled': loading }"
           @click="router.back()"
         >
           <Icon
@@ -117,10 +117,10 @@ onBeforeRouteLeave(() => {
             class="hover:cursor-pointer "
           />
           Cancel
-        </button>
-        <button
+        </div>
+        <div
           class="btn btn-primary"
-          :disabled="loading"
+          :class="{ 'btn-disabled': loading }"
           @click="onSubmit"
         >
           ADD
@@ -131,7 +131,7 @@ onBeforeRouteLeave(() => {
             size="1.5em"
             class="hover:cursor-pointer "
           />
-        </button>
+        </div>
       </div>
     </form>
   </div>
