@@ -1,10 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{
-  label: string;
-  name: string;
-  url: string;
-  isShowLabel: boolean;
-}>();
+import type { SideBarItems } from "../stores/side-bar-locations";
+
+const props = defineProps<SideBarItems>();
 
 const route = useRoute();
 </script>

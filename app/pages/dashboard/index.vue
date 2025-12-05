@@ -1,10 +1,14 @@
 <script setup lang="ts">
-const { data, status } = await useFetch("/api/locations", {
-  lazy: true,
-});
+import { useLocationStore } from "~/stores/locations";
+
+const locations = useLocationStore();
+const { data, status } = storeToRefs(locations);
 function ToAddPage() {
   navigateTo("/dashboard/add");
 }
+onMounted(() => {
+  locations.refresh();
+});
 </script>
 
 <template>
