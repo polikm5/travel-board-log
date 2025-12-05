@@ -30,12 +30,12 @@ onMounted(() => {
     </div>
     <div
       v-else
-      class="flex gap-6"
+      class="flex gap-6 overflow-auto"
     >
       <div
         v-for="location in data"
         :key="location.id"
-        class="card bg-base-100 w-72 h-54 shadow-sm "
+        class="card bg-base-100 w-72 h-54 shadow-sm shrink-0"
       >
         <div class="card-body">
           <h2 class="card-title text-2xl">
