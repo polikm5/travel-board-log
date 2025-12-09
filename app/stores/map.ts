@@ -5,6 +5,10 @@ export const useMapStore = defineStore("useMapStore", () => {
   const mapItems = ref<MapPoints[]>([]);
   const selectedMapPoint = ref<MapPoints | null | undefined>(null);
   const shouldFlyTo = ref(true);
+  // 当手动输入表单时 zoom跟随坐标
+  const manualFlyTo = ref(false);
+  const addPoints = ref<MapPoints | null>(null);
+  const draging = ref(false);
   function selectedMapPointWithoutFly(point: MapPoints | null) {
     shouldFlyTo.value = false;
     selectedMapPoint.value = point;
@@ -28,28 +32,57 @@ export const useMapStore = defineStore("useMapStore", () => {
       });
     });
 
-    effect(() => {
+    watch(() => selectedMapPoint.value, () => {
       if (selectedMapPoint.value) {
-        if (shouldFlyTo.value) {
+        if (shouldFlyTo.value && !addPoints.value) {
           mapInstance.map?.flyTo({
             center: [selectedMapPoint.value.long, selectedMapPoint.value.lat],
             zoom: 6,
             speed: 3,
           });
         }
-        shouldFlyTo.value = true;
       }
       else {
-        mapInstance.map?.fitBounds(bounds, {
-          padding: 60,
+        if (shouldFlyTo.value && !addPoints.value) {
+          mapInstance.map?.fitBounds(bounds, {
+            padding: 60,
+          });
+        }
+      }
+      shouldFlyTo.value = true;
+    });
+
+    watch(addPoints, (newV, oldV) => {
+      if ((newV && !oldV)) {
+        mapInstance.map?.flyTo({
+          center: [newV.long, newV.lat],
+          zoom: 8,
+          speed: 3,
+        });
+        manualFlyTo.value = false;
+      }
+    }, {
+      immediate: true,
+    });
+
+    watchEffect(() => {
+      if (manualFlyTo.value && addPoints.value && !draging.value) {
+        mapInstance.map?.flyTo({
+          center: [addPoints.value.long, addPoints.value.lat],
+          zoom: 8,
+          speed: 3,
         });
       }
+      manualFlyTo.value = false;
     });
   }
   return {
     mapItems,
-    init,
     selectedMapPoint,
+    addPoints,
+    manualFlyTo,
+    draging,
+    init,
     selectedMapPointWithoutFly,
   };
 });
