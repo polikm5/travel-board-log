@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { MglPopup } from "@indoorequal/vue-maplibre-gl";
 import { CENTER_BEIJIN } from "~~/lib/constants";
 
 const colorMode = useColorMode();
@@ -7,7 +8,6 @@ const style = computed(() => {
 });
 const center = CENTER_BEIJIN;
 const zoom = 8;
-
 const mapStore = useMapStore();
 onMounted(() => {
   mapStore.init();
@@ -26,20 +26,39 @@ onMounted(() => {
       v-for="mapPoint in mapStore.mapItems"
       :key="mapPoint.id"
       :coordinates="[mapPoint.long, mapPoint.lat]"
+      class="cursor-pointer"
     >
       <template #marker>
-        <div class="tooltip" :data-tip="mapPoint.label">
+        <div
+          class="tooltip"
+          :data-tip="mapPoint.name"
+          :class="{
+            'tooltip-open': mapStore.selectedMapPoint?.id === mapPoint.id,
+          }"
+          @mouseenter="mapStore.selectedMapPointWithoutFly(mapPoint)"
+          @mouseleave="mapStore.selectedMapPointWithoutFly(null)"
+        >
           <Icon
             name="tabler:map-pin-filled"
             size="24"
-            class="text-secondary"
+            :class="mapStore.selectedMapPoint?.id === mapPoint.id ? 'text-accent' : 'text-secondary'"
           />
         </div>
       </template>
+
+      <MglPopup>
+        <div>
+          <h1 class="text-xl">
+            {{ mapPoint.name }}
+          </h1>
+          <p v-if="mapPoint.description">
+            {{ mapPoint.description }}
+          </p>
+        </div>
+      </MglPopup>
     </MglMarker>
   </MglMap>
 </template>
 
-<style>
-
+<style scoped>
 </style>
