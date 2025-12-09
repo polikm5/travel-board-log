@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { MglEvent } from "@indoorequal/vue-maplibre-gl";
+import type { LngLat } from "maplibre-gl";
+
 import { MglPopup } from "@indoorequal/vue-maplibre-gl";
 import { CENTER_BEIJIN } from "~~/lib/constants";
 
@@ -6,12 +9,32 @@ const colorMode = useColorMode();
 const style = computed(() => {
   return colorMode.value === "dark" ? "/styles/dark.json" : "/styles/light.json";
 });
+
 const center = CENTER_BEIJIN;
 const zoom = 8;
 const mapStore = useMapStore();
 onMounted(() => {
   mapStore.init();
 });
+function updateAddedPoint(event: LngLat) {
+  if (mapStore.addPoints) {
+    mapStore.addPoints.lat = event.lat;
+    mapStore.addPoints.long = event.lng;
+  }
+}
+function dbClick(event: MglEvent<"dblclick">) {
+  if (mapStore.addPoints) {
+    mapStore.addPoints.lat = event.event.lngLat.lat;
+    mapStore.addPoints.long = event.event.lngLat.lng;
+  }
+}
+
+function dragStart() {
+  mapStore.draging = true;
+}
+function dragEnd() {
+  mapStore.draging = false;
+}
 </script>
 
 <template>
@@ -19,7 +42,8 @@ onMounted(() => {
     :map-style="style"
     :center="center"
     :zoom="zoom"
-    height="600px"
+    :double-click-zoom="false"
+    @map:dblclick="dbClick"
   >
     <MglNavigationControl />
     <MglMarker
@@ -56,6 +80,29 @@ onMounted(() => {
           </p>
         </div>
       </MglPopup>
+    </MglMarker>
+
+    <MglMarker
+      v-if="mapStore.addPoints"
+      :coordinates="[mapStore.addPoints.long, mapStore.addPoints.lat]"
+      class="cursor-pointer"
+      draggable
+      @update:coordinates="updateAddedPoint"
+      @dragstart="dragStart"
+      @dragend="dragEnd"
+    >
+      <template #marker>
+        <div
+          class="tooltip tooltip-open"
+          data-tip="Drag to your desired location"
+        >
+          <Icon
+            name="tabler:map-pin-filled"
+            size="24"
+            class="text-warning"
+          />
+        </div>
+      </template>
     </MglMarker>
   </MglMap>
 </template>

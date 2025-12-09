@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import type { FetchError } from "ofetch";
 
+import { CENTER_BEIJIN } from "~~/lib/constants";
 import { InsertLocation } from "~~/lib/db/schema";
 import { useForm } from "vee-validate";
 
-const { handleSubmit, errors, meta, setErrors } = useForm({
+const { handleSubmit, errors, meta, setErrors, setFieldValue, values } = useForm({
   validationSchema: toTypedSchema(InsertLocation),
+  initialValues: {
+    description: "",
+    name: "",
+    long: (CENTER_BEIJIN as [number, number])[0],
+    lat: (CENTER_BEIJIN as [number, number])[1],
+  },
 });
 const submitError = ref("");
 const loading = ref(false);
 const submitted = ref(false);
-
+const mapStore = useMapStore();
 const { $csrfFetch } = useNuxtApp();
 
 const onSubmit = handleSubmit(async (values) => {
@@ -33,7 +40,12 @@ const onSubmit = handleSubmit(async (values) => {
   }
   loading.value = false;
 });
-
+effect(() => {
+  if (mapStore.addPoints) {
+    setFieldValue("lat", mapStore.addPoints.lat);
+    setFieldValue("long", mapStore.addPoints.long);
+  }
+});
 const router = useRouter();
 onBeforeRouteLeave(() => {
   if (!submitted.value && meta.value.dirty) {
@@ -45,7 +57,25 @@ onBeforeRouteLeave(() => {
       return false;
     }
   }
+  mapStore.addPoints = null;
   return true;
+});
+
+onMounted(() => {
+  mapStore.addPoints = {
+    id: 1,
+    description: "",
+    name: "add Points",
+    long: (CENTER_BEIJIN as [number, number])[0],
+    lat: (CENTER_BEIJIN as [number, number])[1],
+  };
+});
+watchEffect(() => {
+  if (values.lat && values.long && mapStore.addPoints) {
+    mapStore.manualFlyTo = true;
+    mapStore.addPoints.lat = values.lat;
+    mapStore.addPoints.long = values.long;
+  }
 });
 </script>
 
