@@ -4,12 +4,24 @@
     light --default,
     dark --prefersdark;
 }
-
+.maplibregl-popup-close-button {
+  @apply p-1;
+}
+.maplibregl-popup-content {
+  @apply min-w-35 min-h-25;
+}
 .dark-mode {
   body {
     background-color: #091a28;
     background-image: linear-gradient(to top, #051325 0%, #19242c 100%);
     color: #ebf4f1;
+  }
+  .maplibregl-popup-content {
+    background-color: #091a28;
+    color: #ebf4f1;
+  }
+  .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+    border-bottom-color: #091a28;
   }
 }
 

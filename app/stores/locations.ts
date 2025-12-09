@@ -16,15 +16,17 @@ export const useLocationStore = defineStore("useLocationStore", () => {
           name: "tabler:map-pin-filled",
           url: "#",
           isShowLabel: false,
+          location: item,
         };
       });
 
       mapStore.mapItems = data.value.map((item) => {
         return {
-          id: `location-${item.id}`,
-          label: item.name,
+          id: item.id,
+          name: item.name,
           lat: item.lat,
           long: item.long,
+          description: item.description,
         };
       });
     }

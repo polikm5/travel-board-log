@@ -17,7 +17,11 @@ const route = useRoute();
 
         class="flex items-center gap-2"
       >
-        <Icon :name="props.name" size="1.5em" />
+        <Icon
+          :name="props.name"
+          size="1.5em"
+          :class="iconColor"
+        />
         <span class="flex-1 whitespace-nowrap ">{{ props.label }}</span>
       </div>
     </NuxtLink>

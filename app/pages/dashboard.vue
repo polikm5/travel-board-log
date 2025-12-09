@@ -3,7 +3,7 @@ const isSideBarOpen = ref(true);
 const sideBarLocationStore = useSideBarLocationsStore();
 const locationStore = useLocationStore();
 const route = useRoute();
-
+const mapStore = useMapStore();
 onMounted(() => {
   isSideBarOpen.value = localStorage.getItem("isSideBarOpen") === "true";
   if (route.path !== "dashboard") {
@@ -54,12 +54,15 @@ function sideBarState() {
           v-else
           :key="item.id"
           class="flex flex-col"
+          @mouseenter="mapStore.selectedMapPoint = item.location"
+          @mouseleave="mapStore.selectedMapPoint = null"
         >
           <SidebarButton
             :label="item.label"
             :name="item.name"
             :url="item.url"
             :is-show-label="isSideBarOpen"
+            :icon-color="mapStore.selectedMapPoint?.id === item.location?.id ? 'text-accent' : ''"
           />
         </div>
         <div class="divider" />
