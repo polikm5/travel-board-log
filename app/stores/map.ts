@@ -29,6 +29,7 @@ export const useMapStore = defineStore("useMapStore", () => {
       }, new LngLatBounds([firstPoint.long, firstPoint.lat], [firstPoint.long, firstPoint.lat]));
       mapInstance.map?.fitBounds(bounds, {
         padding: 60,
+        zoom: 8,
       });
     });
 
@@ -37,8 +38,8 @@ export const useMapStore = defineStore("useMapStore", () => {
         if (shouldFlyTo.value && !addPoints.value) {
           mapInstance.map?.flyTo({
             center: [selectedMapPoint.value.long, selectedMapPoint.value.lat],
-            zoom: 6,
-            speed: 3,
+            zoom: 8,
+            speed: 1,
           });
         }
       }
@@ -46,6 +47,7 @@ export const useMapStore = defineStore("useMapStore", () => {
         if (shouldFlyTo.value && !addPoints.value) {
           mapInstance.map?.fitBounds(bounds, {
             padding: 60,
+            zoom: 8,
           });
         }
       }
@@ -57,7 +59,7 @@ export const useMapStore = defineStore("useMapStore", () => {
         mapInstance.map?.flyTo({
           center: [newV.long, newV.lat],
           zoom: 8,
-          speed: 3,
+          speed: 1,
         });
         manualFlyTo.value = false;
       }
@@ -70,7 +72,7 @@ export const useMapStore = defineStore("useMapStore", () => {
         mapInstance.map?.flyTo({
           center: [addPoints.value.long, addPoints.value.lat],
           zoom: 8,
-          speed: 3,
+          speed: 1,
         });
       }
       manualFlyTo.value = false;
