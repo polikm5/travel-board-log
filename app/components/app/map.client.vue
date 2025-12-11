@@ -81,12 +81,48 @@ function dragEnd() {
         </div>
       </MglPopup>
     </MglMarker>
+    <MglMarker
+      v-for="mapPoint in mapStore.searchMapItems"
+      :key="mapPoint.id"
+      :coordinates="[mapPoint.long, mapPoint.lat]"
+      class="cursor-pointer"
+    >
+      <template #marker>
+        <div
+          class="tooltip"
+          :data-tip="mapPoint.name"
+          :class="{
+            'tooltip-open': mapStore.selectedMapPoint?.id === mapPoint.id,
+          }"
+          @mouseenter="mapStore.searchMapPointWithoutFly(mapPoint)"
+          @mouseleave="mapStore.searchMapPointWithoutFly(null)"
+        >
+          <Icon
+            name="tabler:map-pin-filled"
+            size="24"
+            :class="mapStore.selectedMapPoint?.id === mapPoint.id ? 'text-accent' : 'text-info'"
+          />
+        </div>
+      </template>
+
+      <MglPopup>
+        <div>
+          <h1 class="text-xl">
+            {{ mapPoint.name }}
+          </h1>
+          <p v-if="mapPoint.description">
+            {{ mapPoint.description }}
+          </p>
+        </div>
+      </MglPopup>
+    </MglMarker>
 
     <MglMarker
       v-if="mapStore.addPoints"
       :coordinates="[mapStore.addPoints.long, mapStore.addPoints.lat]"
       class="cursor-pointer"
       draggable
+      class-name="z-50"
       @update:coordinates="updateAddedPoint"
       @dragstart="dragStart"
       @dragend="dragEnd"

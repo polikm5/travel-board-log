@@ -6,7 +6,7 @@ import "./lib/env";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxt/eslint", "@nuxt/icon", "@nuxtjs/color-mode", "@pinia/nuxt", "@vee-validate/nuxt", "nuxt-csurf", "nuxt-maplibre"],
+  modules: ["@nuxt/eslint", "@nuxt/icon", "@nuxtjs/color-mode", "@pinia/nuxt", "@vee-validate/nuxt", "nuxt-csurf", "nuxt-maplibre", "@vueuse/nuxt"],
   eslint: {
     config: {
       standalone: false,
@@ -20,5 +20,17 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "light",
     dataValue: "theme",
+  },
+
+  nitro: {
+    devProxy: {
+      "/nominatim": {
+        target: "https://nominatim.openstreetmap.org",
+        changeOrigin: true,
+        headers: {
+          "User-Agent": "nuxt-travel-log | 864423284@qq.com",
+        },
+      },
+    },
   },
 });

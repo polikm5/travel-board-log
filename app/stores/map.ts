@@ -3,13 +3,22 @@ import type { LngLatBounds } from "maplibre-gl";
 
 export const useMapStore = defineStore("useMapStore", () => {
   const mapItems = ref<MapPoints[]>([]);
+  const searchMapItems = ref<MapPoints[]>([]);
+  let searchBounds: LngLatBounds;
   const selectedMapPoint = ref<MapPoints | null | undefined>(null);
   const shouldFlyTo = ref(true);
+  const searchShouldFlyTo = ref(true);
   // 当手动输入表单时 zoom跟随坐标
   const manualFlyTo = ref(false);
   const addPoints = ref<MapPoints | null>(null);
   const draging = ref(false);
   function selectedMapPointWithoutFly(point: MapPoints | null) {
+    shouldFlyTo.value = false;
+    searchShouldFlyTo.value = false;
+    selectedMapPoint.value = point;
+  }
+  function searchMapPointWithoutFly(point: MapPoints | null) {
+    searchShouldFlyTo.value = false;
     shouldFlyTo.value = false;
     selectedMapPoint.value = point;
   }
@@ -29,13 +38,24 @@ export const useMapStore = defineStore("useMapStore", () => {
       }, new LngLatBounds([firstPoint.long, firstPoint.lat], [firstPoint.long, firstPoint.lat]));
       mapInstance.map?.fitBounds(bounds, {
         padding: 60,
-        zoom: 8,
+      });
+    });
+    effect(() => {
+      const firstPoint = searchMapItems.value[0];
+      if (!firstPoint) {
+        return;
+      }
+      searchBounds = searchMapItems.value.reduce((bounds, point) => {
+        return bounds.extend([point.long, point.lat]);
+      }, new LngLatBounds([firstPoint.long, firstPoint.lat], [firstPoint.long, firstPoint.lat]));
+      mapInstance.map?.fitBounds(searchBounds, {
+        padding: 60,
       });
     });
 
     watch(() => selectedMapPoint.value, () => {
       if (selectedMapPoint.value) {
-        if (shouldFlyTo.value && !addPoints.value) {
+        if ((shouldFlyTo.value && !addPoints.value) || searchShouldFlyTo.value) {
           mapInstance.map?.flyTo({
             center: [selectedMapPoint.value.long, selectedMapPoint.value.lat],
             zoom: 8,
@@ -47,11 +67,16 @@ export const useMapStore = defineStore("useMapStore", () => {
         if (shouldFlyTo.value && !addPoints.value) {
           mapInstance.map?.fitBounds(bounds, {
             padding: 60,
-            zoom: 8,
+          });
+        }
+        if (searchMapItems.value.length > 0 && searchShouldFlyTo.value) {
+          mapInstance.map?.fitBounds(searchBounds, {
+            padding: 60,
           });
         }
       }
       shouldFlyTo.value = true;
+      searchShouldFlyTo.value = true;
     });
 
     watch(addPoints, (newV, oldV) => {
@@ -80,11 +105,13 @@ export const useMapStore = defineStore("useMapStore", () => {
   }
   return {
     mapItems,
+    searchMapItems,
     selectedMapPoint,
     addPoints,
     manualFlyTo,
     draging,
     init,
     selectedMapPointWithoutFly,
+    searchMapPointWithoutFly,
   };
 });

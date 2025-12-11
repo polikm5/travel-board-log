@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { SearchData } from "~~/lib/types";
 import type { FetchError } from "ofetch";
 
 import { CENTER_BEIJIN } from "~~/lib/constants";
@@ -44,6 +45,8 @@ effect(() => {
   if (mapStore.addPoints) {
     setFieldValue("lat", mapStore.addPoints.lat);
     setFieldValue("long", mapStore.addPoints.long);
+    setFieldValue("name", mapStore.addPoints.name);
+    setFieldValue("description", mapStore.addPoints?.description);
   }
 });
 const router = useRouter();
@@ -65,7 +68,7 @@ onMounted(() => {
   mapStore.addPoints = {
     id: 1,
     description: "",
-    name: "add Points",
+    name: "",
     long: (CENTER_BEIJIN as [number, number])[0],
     lat: (CENTER_BEIJIN as [number, number])[1],
   };
@@ -77,10 +80,24 @@ watchEffect(() => {
     mapStore.addPoints.long = values.long;
   }
 });
+
+function applyData(data: SearchData) {
+  mapStore.addPoints = {
+    id: data.id,
+    description: data.address || data.name,
+    name: data.name,
+    long: data.long,
+    lat: data.lat,
+  };
+}
+
+onBeforeRouteLeave(() => {
+  mapStore.searchMapItems = [];
+});
 </script>
 
 <template>
-  <div class="container max-w-md mx-auto p-2">
+  <div class="container max-w-md mx-auto px-4 flex flex-col">
     <p class="text-2xl">
       Add Location
     </p>
@@ -107,7 +124,7 @@ watchEffect(() => {
       </svg>
       <span>{{ submitError }}</span>
     </div>
-    <form class="flex flex-1 flex-col">
+    <form class="flex flex-col">
       <AppFormFiled
         name="name"
         label="Name"
@@ -146,14 +163,14 @@ watchEffect(() => {
             size="1.5em"
             class="hover:cursor-pointer "
           />
-          Cancel
+          返回
         </div>
         <div
           class="btn btn-primary"
           :class="{ 'btn-disabled': loading }"
           @click="onSubmit"
         >
-          ADD
+          添加
           <span v-if="loading" class="loading loading-spinner loading-md" />
           <Icon
             v-else
@@ -164,5 +181,7 @@ watchEffect(() => {
         </div>
       </div>
     </form>
+    <div class="divider" />
+    <AppPlaceSearch @apply-search-data="applyData" />
   </div>
 </template>

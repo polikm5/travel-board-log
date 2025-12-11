@@ -13,8 +13,32 @@ export type LatLongItem = {
 };
 
 export type MapPoints = {
-  id: number;
+  id: number | string;
   name: string;
-  description: string | null;
+  description?: string | null;
 
 } & LatLongItem;
+
+export type SearchData = {
+  id: string;
+  name: string;
+  address?: string | null;
+
+} & LatLongItem;
+export type TiandiMap = {
+  area: Area;
+  pois: Pois;
+};
+
+export type Area = {
+  level: string;
+  name: string;
+  adminCode: number;
+  lonlat: string;
+};
+export type Pois = {
+  address: string;
+  hotPointID: string;
+  lonlat: string;
+  name: string;
+}[];
