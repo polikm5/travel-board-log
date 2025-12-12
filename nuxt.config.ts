@@ -21,16 +21,7 @@ export default defineNuxtConfig({
     preference: "light",
     dataValue: "theme",
   },
-
-  nitro: {
-    devProxy: {
-      "/nominatim": {
-        target: "https://nominatim.openstreetmap.org",
-        changeOrigin: true,
-        headers: {
-          "User-Agent": "nuxt-travel-log | 864423284@qq.com",
-        },
-      },
-    },
+  devServer: {
+    port: 3000,
   },
 });

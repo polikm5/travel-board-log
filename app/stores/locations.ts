@@ -14,7 +14,7 @@ export const useLocationStore = defineStore("useLocationStore", () => {
           id: `location-${item.id}`,
           label: item.name,
           name: "tabler:map-pin-filled",
-          url: "#",
+          url: { name: "dashboard-location-slug", params: { slug: item.slug } },
           isShowLabel: false,
           location: item,
         };

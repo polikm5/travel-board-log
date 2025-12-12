@@ -33,7 +33,7 @@ onMounted(() => {
       v-else
       class="flex gap-6 overflow-auto"
     >
-      <div
+      <NuxtLink
         v-for="location in data"
         :key="location.id"
         class="card bg-base-100 w-72 h-54 shadow-sm shrink-0 border-2 mb-2 cursor-pointer"
@@ -41,6 +41,7 @@ onMounted(() => {
           'border-accent': location.id === mapStore.selectedMapPoint?.id,
           'border-transparent': location.id !== mapStore.selectedMapPoint?.id,
         }"
+        :to="{ name: 'dashboard-location-slug', params: { slug: location.slug } }"
         @mouseenter="mapStore.selectedMapPoint = location"
         @mouseleave="mapStore.selectedMapPoint = null"
       >
@@ -52,7 +53,7 @@ onMounted(() => {
             {{ location.name }}
           </p>
         </div>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>

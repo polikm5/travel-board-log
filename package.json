@@ -15,7 +15,8 @@
     "prepare": "husky",
     "generate:db": "drizzle-kit generate",
     "migrate:db": "drizzle-kit migrate",
-    "studio:db": "drizzle-kit studio"
+    "studio:db": "drizzle-kit studio",
+    "typecheck": "nuxi typecheck"
   },
   "dependencies": {
     "@indoorequal/vue-maplibre-gl": "^8.4.2",
@@ -57,7 +58,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.1.8"
   },
   "lint-staged": {
     "*": "pnpm lint"
