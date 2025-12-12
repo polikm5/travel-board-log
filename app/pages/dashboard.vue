@@ -75,7 +75,7 @@ function sideBarState() {
       </div>
     </div>
     <div class="flex-1 overflow-auto">
-      <div class="flex size-full p-6" :class="route.path === '/dashboard' ? 'flex-col' : ''">
+      <div class="flex size-full p-6" :class="route.path === '/dashboard/add' ? '' : 'flex-col'">
         <NuxtPage class="mb-6" />
         <app-map class="flex-1" />
       </div>

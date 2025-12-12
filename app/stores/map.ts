@@ -1,6 +1,7 @@
 import type { MapPoints } from "~~/lib/types";
 import type { LngLatBounds } from "maplibre-gl";
 
+const route = useRoute();
 export const useMapStore = defineStore("useMapStore", () => {
   const mapItems = ref<MapPoints[]>([]);
   const searchMapItems = ref<MapPoints[]>([]);
@@ -38,6 +39,7 @@ export const useMapStore = defineStore("useMapStore", () => {
       }, new LngLatBounds([firstPoint.long, firstPoint.lat], [firstPoint.long, firstPoint.lat]));
       mapInstance.map?.fitBounds(bounds, {
         padding: 60,
+        maxZoom: 10,
       });
     });
     effect(() => {
@@ -50,12 +52,13 @@ export const useMapStore = defineStore("useMapStore", () => {
       }, new LngLatBounds([firstPoint.long, firstPoint.lat], [firstPoint.long, firstPoint.lat]));
       mapInstance.map?.fitBounds(searchBounds, {
         padding: 60,
+        maxZoom: 10,
       });
     });
 
     watch(() => selectedMapPoint.value, () => {
       if (selectedMapPoint.value) {
-        if ((shouldFlyTo.value && !addPoints.value) || searchShouldFlyTo.value) {
+        if ((shouldFlyTo.value && !addPoints.value && route.path === "/dashboard") || (searchShouldFlyTo.value && addPoints.value)) {
           mapInstance.map?.flyTo({
             center: [selectedMapPoint.value.long, selectedMapPoint.value.lat],
             zoom: 8,
@@ -64,14 +67,16 @@ export const useMapStore = defineStore("useMapStore", () => {
         }
       }
       else {
-        if (shouldFlyTo.value && !addPoints.value) {
+        if (shouldFlyTo.value && !addPoints.value && route.path === "/dashboard") {
           mapInstance.map?.fitBounds(bounds, {
             padding: 60,
+            maxZoom: 10,
           });
         }
-        if (searchMapItems.value.length > 0 && searchShouldFlyTo.value) {
+        if (searchShouldFlyTo.value && addPoints.value) {
           mapInstance.map?.fitBounds(searchBounds, {
             padding: 60,
+            maxZoom: 10,
           });
         }
       }
