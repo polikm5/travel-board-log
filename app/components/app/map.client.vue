@@ -53,7 +53,6 @@ function dragEnd() {
             >
               <MglMarker
                 :coordinates="[mapPoint.long, mapPoint.lat]"
-                class="cursor-pointer"
               >
                 <template #marker>
                   <div>
