@@ -21,7 +21,4 @@ export default defineNuxtConfig({
     preference: "light",
     dataValue: "theme",
   },
-  devServer: {
-    port: 3000,
-  },
 });
