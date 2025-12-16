@@ -2,7 +2,7 @@ import type z from "zod";
 
 import { relations } from "drizzle-orm";
 import { int, real, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 import { user } from "./auth-schema";
 import { locationLog } from "./location-log";
@@ -40,6 +40,7 @@ export const InsertLocation = createInsertSchema(location, {
   updatedAt: true,
 });
 
+export const SelectLocation = createSelectSchema(location);
 export type InsertLocation = z.infer<typeof InsertLocation>;
 
 export type LocationType = typeof location.$inferSelect;
