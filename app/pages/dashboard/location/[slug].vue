@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import type { SelectLocationWithLogs } from "~~/lib/db/schema";
+
+const locationStore = useLocationStore();
+// const { locationLog: data, locationLogError: error, locationLogStatus: status } = storeToRefs(locationStore);
 const route = useRoute();
-const { slug } = route.params;
-const { data, status, error } = useFetch(`/api/location/${slug}`, {
-  lazy: true,
-});
-const mapStore = useMapStore();
-effect(() => {
-  if (data.value) {
-    mapStore.mapItems = [data.value];
-  }
+const locationUrlWithSlug = computed(() => `/api/location/${route.params.slug}`);
+const { data, status, error } = await useFetch<SelectLocationWithLogs>(locationUrlWithSlug);
+locationStore.locationLog = data.value;
+onMounted(() => {
+  // console.log("route", route.params.slug);
+  // locationStore.refreshLocationLog();
 });
 </script>
 

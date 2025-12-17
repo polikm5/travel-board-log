@@ -44,3 +44,7 @@ export const SelectLocation = createSelectSchema(location);
 export type InsertLocation = z.infer<typeof InsertLocation>;
 
 export type LocationType = typeof location.$inferSelect;
+
+export type SelectLocationWithLogs = typeof location.$inferSelect & {
+  locationLog: LocationLog[];
+};

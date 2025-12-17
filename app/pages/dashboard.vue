@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { LOCATION_PAGES } from "~~/lib/constants";
+
 const isSideBarOpen = ref(true);
 const sideBarLocationStore = useSideBarLocationsStore();
 const locationStore = useLocationStore();
@@ -6,8 +8,54 @@ const route = useRoute();
 const mapStore = useMapStore();
 onMounted(() => {
   isSideBarOpen.value = localStorage.getItem("isSideBarOpen") === "true";
-  if (route.path !== "dashboard") {
+  if (LOCATION_PAGES.has(route.name?.toString() || "")) {
     locationStore.refresh();
+  }
+});
+effect(() => {
+  if (route.name !== "dashboard-location-slug") {
+    sideBarLocationStore.topSideBarItems = [
+      {
+        id: "link-dashboard",
+        label: "locations",
+        name: "tabler:map",
+        url: "/dashboard",
+      },
+      {
+        id: "link-add-location",
+        label: "Add Location",
+        name: "tabler:map-plus",
+        url: "/dashboard/add",
+      },
+    ];
+  }
+  else if (route.name === "dashboard-location-slug") {
+    sideBarLocationStore.topSideBarItems = [
+      {
+        id: "link-dashboard",
+        label: "Back to locations",
+        name: "tabler:arrow-left",
+        url: "/dashboard",
+      },
+      {
+        id: "link-view-location-log",
+        label: "View Location-Log",
+        name: "tabler:map-plus",
+        url: { name: "dashboard-location-slug", params: { slug: locationStore.locationLog?.slug } },
+      },
+      {
+        id: "link-add-location-log",
+        label: "Add Location-Log",
+        name: "tabler:circle-plus-filled",
+        url: { name: "dashboard-location-slug-add", params: { slug: locationStore.locationLog?.slug } },
+      },
+      {
+        id: "link-edit-location-log",
+        label: "Edit Location-Log",
+        name: "tabler:pencil-cog",
+        url: { name: "dashboard-location-slug-edit", params: { slug: locationStore.locationLog?.slug } },
+      },
+    ];
   }
 });
 function sideBarState() {
@@ -22,28 +70,24 @@ function sideBarState() {
       <div class="justify-self-end hover:bg-base-300" @click="sideBarState">
         <Icon
           v-if="isSideBarOpen"
-          name="tabler:arrow-narrow-left"
-          size="2.5em"
+          name="tabler:layout-sidebar-left-collapse"
+          size="2em"
           class="hover:cursor-pointer "
         />
         <Icon
           v-else
-          name="tabler:arrow-narrow-right"
-          size="2.5em"
+          name="tabler:layout-sidebar-right-collapse"
+          size="2em"
           class="hover:cursor-pointer "
         />
       </div>
       <div class="flex flex-col">
         <SidebarButton
-          label="locations"
-          name="tabler:map"
-          url="/dashboard"
-          :is-show-label="isSideBarOpen"
-        />
-        <SidebarButton
-          label="Add Location"
-          name="tabler:map-plus"
-          url="/dashboard/add"
+          v-for="topSideBarItems in sideBarLocationStore.topSideBarItems"
+          :key="topSideBarItems.id"
+          :label="topSideBarItems.label"
+          :name="topSideBarItems.name"
+          :url="topSideBarItems.url"
           :is-show-label="isSideBarOpen"
         />
 
