@@ -4,8 +4,6 @@ import { relations } from "drizzle-orm";
 import { int, real, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-import type { LocationLog } from "./location-log";
-
 import { user } from "./auth-schema";
 import { locationLog } from "./location-log";
 
