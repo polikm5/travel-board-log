@@ -53,7 +53,6 @@ function dragEnd() {
             >
               <MglMarker
                 :coordinates="[mapPoint.long, mapPoint.lat]"
-                class="cursor-pointer"
               >
                 <template #marker>
                   <div>
@@ -99,7 +98,6 @@ function dragEnd() {
             >
               <MglMarker
                 :coordinates="[mapPoint.long, mapPoint.lat]"
-                class="cursor-pointer"
               >
                 <template #marker>
                   <div>
@@ -137,7 +135,6 @@ function dragEnd() {
             <MglMarker
               v-if="mapStore.addPoints"
               :coordinates="[mapStore.addPoints.long, mapStore.addPoints.lat]"
-              class="cursor-pointer"
               draggable
               class-name="z-50"
               @update:coordinates="updateAddedPoint"
