@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const authStore = useAuthStore();
-await authStore.init();
 
 const mapStore = useMapStore();
+await authStore.init();
 onMounted(() => {
   mapStore.init();
 });

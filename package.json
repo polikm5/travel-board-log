@@ -57,6 +57,7 @@
     "eslint-plugin-format": "^1.0.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
+    "nuxt-hydration": "^0.6.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.1.8"

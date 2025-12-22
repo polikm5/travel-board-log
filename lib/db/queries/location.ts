@@ -64,3 +64,15 @@ export async function findLocation(slug: string, userId: number) {
 
   return data;
 }
+
+export async function updateLocationBySlug(slug: string, updateable: InsertLocation, userId: number) {
+  const [updated] = await db.update(location).set({
+    ...updateable,
+  }).where(
+    and(
+      eq(location.slug, slug),
+      eq(location.userId, userId),
+    ),
+  ).returning();
+  return updated;
+}
