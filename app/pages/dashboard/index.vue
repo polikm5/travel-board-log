@@ -7,6 +7,7 @@ const { data, status } = storeToRefs(locations);
 function ToAddPage() {
   navigateTo("/dashboard/add");
 }
+
 onMounted(() => {
   locations.refresh();
 });

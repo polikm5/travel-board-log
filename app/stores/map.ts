@@ -1,8 +1,8 @@
 import type { MapPoints } from "~~/lib/types";
 import type { LngLatBounds } from "maplibre-gl";
 
-const route = useRoute();
 export const useMapStore = defineStore("useMapStore", () => {
+  const route = useRoute();
   const mapItems = ref<MapPoints[]>([]);
   const searchMapItems = ref<MapPoints[]>([]);
   let searchBounds: LngLatBounds;

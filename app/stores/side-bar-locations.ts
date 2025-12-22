@@ -1,4 +1,4 @@
-import type { LocationType } from "~~/lib/db/schema";
+import type { SelectLocationType } from "~~/lib/db/schema";
 import type { RouteLocationRaw } from "vue-router";
 
 export type SideBarItems = {
@@ -7,7 +7,7 @@ export type SideBarItems = {
   url: string | RouteLocationRaw;
   isShowLabel?: boolean;
   iconColor?: string;
-  location?: LocationType | null;
+  location?: SelectLocationType | null;
 };
 
 export type SideBarItemsWithId = SideBarItems & {
