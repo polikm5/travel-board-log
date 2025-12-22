@@ -76,3 +76,13 @@ export async function updateLocationBySlug(slug: string, updateable: InsertLocat
   ).returning();
   return updated;
 }
+
+export async function deleteLocationBySlug(slug: string, userId: number) {
+  const [deleted] = await db.delete(location).where(
+    and(
+      eq(location.slug, slug),
+      eq(location.userId, userId),
+    ),
+  ).returning();
+  return deleted;
+}
