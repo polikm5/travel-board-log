@@ -61,6 +61,52 @@ effect(() => {
     }
   }
 });
+effect(() => {
+  if (route.name !== "dashboard-location-slug") {
+    sideBarLocationStore.topSideBarItems = [
+      {
+        id: "link-dashboard",
+        label: "locations",
+        name: "tabler:map",
+        url: "/dashboard",
+      },
+      {
+        id: "link-add-location",
+        label: "Add Location",
+        name: "tabler:map-plus",
+        url: "/dashboard/add",
+      },
+    ];
+  }
+  else if (route.name === "dashboard-location-slug") {
+    sideBarLocationStore.topSideBarItems = [
+      {
+        id: "link-dashboard",
+        label: "Back to locations",
+        name: "tabler:arrow-left",
+        url: "/dashboard",
+      },
+      {
+        id: "link-view-location-log",
+        label: "View Location-Log",
+        name: "tabler:map-plus",
+        url: { name: "dashboard-location-slug", params: { slug: locationStore.locationLog?.slug } },
+      },
+      {
+        id: "link-add-location-log",
+        label: "Add Location-Log",
+        name: "tabler:circle-plus-filled",
+        url: { name: "dashboard-location-slug-add", params: { slug: locationStore.locationLog?.slug } },
+      },
+      {
+        id: "link-edit-location-log",
+        label: "Edit Location-Log",
+        name: "tabler:pencil-cog",
+        url: { name: "dashboard-location-slug-edit", params: { slug: locationStore.locationLog?.slug } },
+      },
+    ];
+  }
+});
 function sideBarState() {
   isSideBarOpen.value = !isSideBarOpen.value;
   localStorage.setItem("isSideBarOpen", isSideBarOpen.value.toString());
