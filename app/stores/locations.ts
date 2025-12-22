@@ -13,8 +13,6 @@ export const useLocationStore = defineStore("useLocationStore", () => {
   const { data, status, refresh } = useFetch("/api/locations", {
     lazy: true,
   });
-  // const currentLocationLog = ref();
-  // const currentLocationStatus = ref("")
   const locationUrlWithSlug = computed(() => {
     return `/api/location/${route.params.slug}`;
   });
