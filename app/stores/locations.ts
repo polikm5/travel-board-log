@@ -6,6 +6,8 @@ import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from "~~/lib/constants";
 
 import { useMapStore } from "./map";
 
+const listShowLocation = new Set(["dashboard", "dashboard-add"]);
+const listNoShowLocation = new Set(["dashboard-location-slug", "dashboard-location-add", "dashboard-location-edit"]);
 export const useLocationStore = defineStore("useLocationStore", () => {
   const route = useRoute();
   const mapStore = useMapStore();
