@@ -1,5 +1,6 @@
 import type z from "zod";
 
+import { DescriptionSchema, LatSchema, LongSchema, NameSchema } from "~~/lib/zod-schema";
 import { relations } from "drizzle-orm";
 import { int, real, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -30,10 +31,10 @@ export const locationRelation = relations(location, ({ many }) => {
 });
 
 export const InsertLocation = createInsertSchema(location, {
-  name: filed => filed.min(1).max(100),
-  description: filed => filed.max(1000),
-  lat: field => field.min(-90).max(90),
-  long: field => field.min(-180).max(180),
+  name: NameSchema,
+  description: DescriptionSchema,
+  lat: LatSchema,
+  long: LongSchema,
 }).omit({
   id: true,
   slug: true,
