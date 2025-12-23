@@ -58,7 +58,11 @@ export async function findLocation(slug: string, userId: number) {
       eq(location.userId, userId),
     ),
     with: {
-      locationLog: true,
+      locationLog: {
+        orderBy(fields, operators) {
+          return operators.desc(fields.startedAt);
+        },
+      },
     },
   });
 

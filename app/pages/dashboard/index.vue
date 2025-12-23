@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { createMapPointFromLocation } from "~~/utils/map-points";
+
 import { useLocationStore } from "~/stores/locations";
 
 const locations = useLocationStore();
-const mapStore = useMapStore();
 const { data, status } = storeToRefs(locations);
 function ToAddPage() {
   navigateTo("/dashboard/add");
@@ -14,7 +15,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="page-content-top">
     <div v-if="status === 'pending'" class="flex flex-1 h-full justify-center items-center">
       <span class="loading loading-spinner loading-lg" />
     </div>
@@ -32,29 +33,13 @@ onMounted(() => {
     </div>
     <div
       v-else
-      class="flex gap-6 overflow-auto"
+      class="location-list"
     >
-      <NuxtLink
+      <LocationCard
         v-for="location in data"
         :key="location.id"
-        class="card bg-base-100 w-72 h-54 shadow-sm shrink-0 border-2 mb-2 cursor-pointer"
-        :class="{
-          'border-accent': location.id === mapStore.selectedMapPoint?.id,
-          'border-transparent': location.id !== mapStore.selectedMapPoint?.id,
-        }"
-        :to="{ name: 'dashboard-location-slug', params: { slug: location.slug } }"
-        @mouseenter="mapStore.selectedMapPoint = location"
-        @mouseleave="mapStore.selectedMapPoint = null"
-      >
-        <div class="card-body">
-          <h2 class="card-title text-2xl">
-            {{ location.name }}
-          </h2>
-          <p class="pt-6">
-            {{ location.description }}
-          </p>
-        </div>
-      </NuxtLink>
+        :map-point="createMapPointFromLocation(location)"
+      />
     </div>
   </div>
 </template>
