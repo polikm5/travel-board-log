@@ -48,10 +48,10 @@ onMounted(() => {
       >
         <div class="card-body">
           <h2 class="card-title text-2xl">
-            {{ location.description }}
+            {{ location.name }}
           </h2>
           <p class="pt-6">
-            {{ location.name }}
+            {{ location.description }}
           </p>
         </div>
       </NuxtLink>

@@ -11,9 +11,7 @@ async function onSubmit(values: InsertLocation) {
   });
 }
 
-function onSumitComplete() {
-  // navigateTo(`/dashboard/location/${route.params.slug}`);
-
+function onSubmitComplete() {
   navigateTo({
     name: "dashboard-location-slug",
     params: { slug: route.params.slug },
@@ -27,6 +25,7 @@ function onSumitComplete() {
     :initial-values="locationStore.currentLocationLog"
     submit-label="更新"
     submit-icon="tabler:map-pin-up"
-    :on-sumit-complete="onSumitComplete"
+    :on-submit-complete="onSubmitComplete"
+    :zoom="6"
   />
 </template>

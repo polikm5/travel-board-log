@@ -10,7 +10,7 @@ async function onSubmit(values: InsertLocation) {
   });
 }
 
-function onSumitComplete() {
+function onSubmitComplete() {
   navigateTo("/dashboard");
 }
 </script>
@@ -28,7 +28,7 @@ function onSumitComplete() {
       :on-submit
       submit-label="提交"
       submit-icon="tabler:circle-plus"
-      :on-sumit-complete="onSumitComplete"
+      :on-submit-complete="onSubmitComplete"
     />
   </div>
 </template>

@@ -11,7 +11,7 @@ export const useMapStore = defineStore("useMapStore", () => {
   const searchShouldFlyTo = ref(true);
   // 当手动输入表单时 zoom跟随坐标
   const manualFlyTo = ref(false);
-  const addPoints = ref<MapPoints | null>(null);
+  const addPoints = ref<MapPoints & { zoom?: number } | null>(null);
   const draging = ref(false);
   function selectedMapPointWithoutFly(point: MapPoints | null) {
     shouldFlyTo.value = false;
@@ -88,7 +88,7 @@ export const useMapStore = defineStore("useMapStore", () => {
       if ((newV && !oldV)) {
         mapInstance.map?.flyTo({
           center: [newV.long, newV.lat],
-          zoom: 8,
+          zoom: newV.zoom || 8,
           speed: 1,
         });
         manualFlyTo.value = false;

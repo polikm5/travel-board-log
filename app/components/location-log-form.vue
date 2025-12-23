@@ -1,27 +1,31 @@
 <script setup lang="ts">
 import { CENTER_BEIJIN } from "~~/lib/constants";
-import { InsertLocation } from "~~/lib/db/schema";
+import { InsertLocationLog } from "~~/lib/db/schema";
 
 const props = defineProps<{
-  initialValues?: InsertLocation;
-  onSubmit: (location: InsertLocation) => Promise<any>;
+  initialValues?: InsertLocationLog;
+  onSubmit: (location: InsertLocationLog) => Promise<any>;
   onSubmitComplete: () => void;
   submitLabel: string;
   submitIcon: string;
   zoom?: number;
 }>();
+
+const initialValues = props.initialValues || {
+  description: "",
+  name: "",
+  long: (CENTER_BEIJIN as [number, number])[0],
+  lat: (CENTER_BEIJIN as [number, number])[1],
+  startedAt: Date.now() - 24 * 60 * 60 * 1000,
+  endedAt: Date.now(),
+};
 </script>
 
 <template>
   <LocationBaseForm
     v-slot="{ errors, loading }"
-    :initial-values="props.initialValues || {
-      description: '',
-      name: '',
-      long: (CENTER_BEIJIN as [number, number])[0],
-      lat: (CENTER_BEIJIN as [number, number])[1],
-    }"
-    :schema="InsertLocation"
+    :initial-values="props.initialValues || initialValues"
+    :schema="InsertLocationLog"
     :on-submit
     :on-submit-complete
     :submit-icon
@@ -53,6 +57,20 @@ const props = defineProps<{
       label="Longitude"
       :error="errors.long"
       type="number"
+      :disabled="loading"
+    />
+    <AppDateFormFiled
+      :value="initialValues.startedAt"
+      name="startedAt"
+      label="started At"
+      :error="errors.startedAt"
+      :disabled="loading"
+    />
+    <AppDateFormFiled
+      :value="initialValues.endedAt"
+      name="endedAt"
+      label="ended At"
+      :error="errors.endedAt"
       :disabled="loading"
     />
   </LocationBaseForm>

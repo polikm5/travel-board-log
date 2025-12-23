@@ -53,8 +53,8 @@ effect(() => {
         name: "tabler:circle-plus-filled",
         url: { name: "dashboard-location-slug-add", params: { slug: locationStore.currentLocationLog?.slug } },
       }, {
-        id: "link-edit-location-log",
-        label: "Edit Location-Log",
+        id: "link-edit-location",
+        label: "Edit Location",
         name: "tabler:pencil-cog",
         url: { name: "dashboard-location-slug-edit", params: { slug: locationStore.currentLocationLog?.slug } },
       });
