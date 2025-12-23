@@ -2,6 +2,9 @@
 // import type { SelectLocationWithLogs } from "~~/lib/db/schema";
 import type { FetchError } from "ofetch";
 
+import { formatDate } from "~~/utils/format-date";
+import { createMapPointFromLocationLog } from "~~/utils/map-points";
+
 const locationStore = useLocationStore();
 const { currentLocationLog: data, currentLocationError: error, currentLocationStatus: status } = storeToRefs(locationStore);
 const route = useRoute();
@@ -49,7 +52,7 @@ onBeforeRouteUpdate((to) => {
 </script>
 
 <template>
-  <div class="h-54">
+  <div class="page-content-top">
     <div v-if="loading" class="loading loading-xl" />
     <div v-if="route.name === 'dashboard-location-slug' && !loading && data">
       <div>
@@ -113,6 +116,27 @@ onBeforeRouteUpdate((to) => {
     </div>
     <div v-if="route.name !== 'dashboard-location-slug'">
       <NuxtPage />
+    </div>
+    <div
+      v-if="route.name === 'dashboard-location-slug' && data?.locationLog.length"
+      class="location-list"
+    >
+      <LocationCard
+        v-for="log in data.locationLog"
+        :key="log.id"
+        :map-point="createMapPointFromLocationLog(log)"
+      >
+        <template #top>
+          <p class="text-sm italic text-gray-300">
+            <span v-if="log.startedAt !== log.endedAt">
+              {{ formatDate(log.startedAt) }} / {{ formatDate(log.endedAt) }}
+            </span>
+            <span v-if="log.startedAt === log.endedAt">
+              {{ formatDate(log.startedAt) }}
+            </span>
+          </p>
+        </template>
+      </LocationCard>
     </div>
     <div v-if="!loading && errorMessage" class="alert alert-error">
       {{ errorMessage }}

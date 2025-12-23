@@ -32,3 +32,11 @@
     color: rgba(0, 0, 0, 0.8);
   }
 }
+
+.location-list {
+  @apply flex gap-6 overflow-auto;
+}
+
+.page-content-top {
+  @apply p-4 min-h-72;
+}
