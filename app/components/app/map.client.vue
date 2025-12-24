@@ -32,6 +32,9 @@ function dragStart() {
 function dragEnd() {
   mapStore.draging = false;
 }
+onMounted(() => {
+  mapStore.init();
+});
 </script>
 
 <template>

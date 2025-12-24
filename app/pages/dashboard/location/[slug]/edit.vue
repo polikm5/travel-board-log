@@ -22,7 +22,7 @@ function onSubmitComplete() {
 <template>
   <LocationForm
     :on-submit
-    :initial-values="locationStore.currentLocationLog"
+    :initial-values="locationStore.currentLocation"
     submit-label="更新"
     submit-icon="tabler:map-pin-up"
     :on-submit-complete="onSubmitComplete"

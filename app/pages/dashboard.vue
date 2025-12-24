@@ -1,16 +1,29 @@
 <script setup lang="ts">
-import { CURRENT_LOCATION_PAGES, EDIT_PAGES, LOCATION_PAGES } from "~~/lib/constants";
+import { CURRENT_LOCATION_LOG_PAGES, CURRENT_LOCATION_PAGES, EDIT_PAGES, LOCATION_PAGES } from "~~/lib/constants";
+import { isPointSelected } from "~~/utils/map-points";
 
 const isSideBarOpen = ref(true);
 const sideBarLocationStore = useSideBarLocationsStore();
 const locationStore = useLocationStore();
 const route = useRoute();
 const mapStore = useMapStore();
-const { currentLocationLog, currentLocationStatus } = storeToRefs(locationStore);
 if (LOCATION_PAGES.has(route.name?.toString() || "")) {
   await locationStore.refresh();
 }
-onMounted(() => {
+const { currentLocation, currentLocationStatus } = storeToRefs(locationStore);
+if (LOCATION_PAGES.has(route.name?.toString() || "")) {
+  await locationStore.refresh();
+}
+
+if (CURRENT_LOCATION_PAGES.has(route.name?.toString() || "") || CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || "")) {
+  await locationStore.refreshCurrentLocation();
+}
+
+if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || "")) {
+  await locationStore.refreshCurrentLocationLog();
+}
+
+onMounted(async () => {
   isSideBarOpen.value = localStorage.getItem("isSideBarOpen") === "true";
 });
 effect(() => {
@@ -40,23 +53,22 @@ effect(() => {
       },
 
     ];
-
-    if (currentLocationLog.value && currentLocationStatus.value !== "pending") {
+    if (currentLocation.value && currentLocationStatus.value !== "pending") {
       sideBarLocationStore.topSideBarItems.push({
         id: "link-view-location-log",
         label: "View Location-Log",
         name: "tabler:map-plus",
-        url: { name: "dashboard-location-slug", params: { slug: locationStore.currentLocationLog?.slug } },
+        url: { name: "dashboard-location-slug", params: { slug: route.params.slug } },
       }, {
         id: "link-add-location-log",
         label: "Add Location-Log",
         name: "tabler:circle-plus-filled",
-        url: { name: "dashboard-location-slug-add", params: { slug: locationStore.currentLocationLog?.slug } },
+        url: { name: "dashboard-location-slug-add", params: { slug: route.params.slug } },
       }, {
         id: "link-edit-location",
         label: "Edit Location",
         name: "tabler:pencil-cog",
-        url: { name: "dashboard-location-slug-edit", params: { slug: locationStore.currentLocationLog?.slug } },
+        url: { name: "dashboard-location-slug-edit", params: { slug: route.params.slug } },
       });
     }
   }
@@ -100,19 +112,19 @@ function sideBarState() {
         <div v-if="sideBarLocationStore.loading" class="skeleton h-16 w-full" />
 
         <div
-          v-for="item in sideBarLocationStore.sideBarItems"
-          v-else
-          :key="item.id"
+          v-if="!sideBarLocationStore.loading && sideBarLocationStore.sideBarItems.length"
           class="flex flex-col"
-          @mouseenter="mapStore.selectedMapPoint = item.location"
-          @mouseleave="mapStore.selectedMapPoint = null"
         >
           <SidebarButton
+            v-for="item in sideBarLocationStore.sideBarItems"
+            :key="item.id"
             :label="item.label"
             :name="item.name"
             :url="item.url"
             :is-show-label="isSideBarOpen"
-            :icon-color="mapStore.selectedMapPoint?.id === item.location?.id ? 'text-accent' : ''"
+            :icon-color="isPointSelected(item.location, mapStore.selectedMapPoint) ? 'text-accent' : undefined"
+            @mouseenter="mapStore.selectedMapPoint = item.location"
+            @mouseleave="mapStore.selectedMapPoint = null"
           />
         </div>
         <div class="divider" />

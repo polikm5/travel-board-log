@@ -32,8 +32,8 @@ function onSubmitComplete() {
     :initial-values="{
       description: '',
       name: '',
-      long: locationStore.currentLocationLog?.long || (CENTER_BEIJIN as [number, number])[0],
-      lat: locationStore.currentLocationLog?.lat || (CENTER_BEIJIN as [number, number])[1],
+      long: locationStore.currentLocation?.long || (CENTER_BEIJIN as [number, number])[0],
+      lat: locationStore.currentLocation?.lat || (CENTER_BEIJIN as [number, number])[1],
       startedAt,
       endedAt,
     }"

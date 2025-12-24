@@ -2,7 +2,8 @@ import type { MapPoints } from "~~/lib/types";
 import type { LngLatBounds } from "maplibre-gl";
 
 export const useMapStore = defineStore("useMapStore", () => {
-  const route = useRoute();
+  // const route = useRoute();
+  const router = useRouter();
   const mapItems = ref<MapPoints[]>([]);
   const searchMapItems = ref<MapPoints[]>([]);
   let searchBounds: LngLatBounds;
@@ -23,22 +24,24 @@ export const useMapStore = defineStore("useMapStore", () => {
     shouldFlyTo.value = false;
     selectedMapPoint.value = point;
   }
-  let bounds: LngLatBounds;
+
   async function init() {
     const { useMap } = await import("@indoorequal/vue-maplibre-gl");
     const { LngLatBounds } = await import("maplibre-gl");
-
+    let bounds: LngLatBounds;
+    const padding = 60;
     const mapInstance = useMap();
     effect(() => {
       const firstPoint = mapItems.value[0];
       if (!firstPoint) {
         return;
       }
+
       bounds = mapItems.value.reduce((bounds, point) => {
         return bounds.extend([point.long, point.lat]);
       }, new LngLatBounds([firstPoint.long, firstPoint.lat], [firstPoint.long, firstPoint.lat]));
       mapInstance.map?.fitBounds(bounds, {
-        padding: 60,
+        padding,
         maxZoom: 10,
       });
     });
@@ -51,14 +54,14 @@ export const useMapStore = defineStore("useMapStore", () => {
         return bounds.extend([point.long, point.lat]);
       }, new LngLatBounds([firstPoint.long, firstPoint.lat], [firstPoint.long, firstPoint.lat]));
       mapInstance.map?.fitBounds(searchBounds, {
-        padding: 60,
+        padding,
         maxZoom: 10,
       });
     });
 
     watch(() => selectedMapPoint.value, () => {
       if (selectedMapPoint.value) {
-        if ((shouldFlyTo.value && !addPoints.value && route.path === "/dashboard") || (searchShouldFlyTo.value && addPoints.value)) {
+        if ((shouldFlyTo.value && !addPoints.value && router.currentRoute.value.path === "/dashboard") || (searchShouldFlyTo.value && addPoints.value)) {
           mapInstance.map?.flyTo({
             center: [selectedMapPoint.value.long, selectedMapPoint.value.lat],
             zoom: 8,
@@ -67,15 +70,15 @@ export const useMapStore = defineStore("useMapStore", () => {
         }
       }
       else {
-        if (shouldFlyTo.value && !addPoints.value && route.path === "/dashboard") {
+        if (shouldFlyTo.value && !addPoints.value && router.currentRoute.value.path === "/dashboard") {
           mapInstance.map?.fitBounds(bounds, {
-            padding: 60,
+            padding,
             maxZoom: 10,
           });
         }
         if (searchShouldFlyTo.value && addPoints.value) {
           mapInstance.map?.fitBounds(searchBounds, {
-            padding: 60,
+            padding,
             maxZoom: 10,
           });
         }

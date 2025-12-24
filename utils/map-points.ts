@@ -9,11 +9,19 @@ export function createMapPointFromLocation(location: SelectLocationType): MapPoi
   };
   return transformData;
 }
-export function createMapPointFromLocationLog(locationLog: LocationLog): MapPoints {
+export function createMapPointFromLocationLog(locationLog: LocationLog, slug: string): MapPoints {
   const transformData = {
     ...locationLog,
-    url: { name: "dashboard-location-slug-id", params: { id: locationLog.id } },
+    url: { name: "dashboard-location-slug-id", params: { slug, id: locationLog.id } },
     toLabel: "View",
   };
   return transformData;
+}
+
+export function isPointSelected(item: Pick<MapPoints, "id" | "lat" | "long"> | null | undefined, selectedPoint: MapPoints | null | undefined) {
+  if (!item || !selectedPoint)
+    return false;
+  return item.id === selectedPoint.id
+    && item.lat === selectedPoint.lat
+    && item.long === selectedPoint.long;
 }

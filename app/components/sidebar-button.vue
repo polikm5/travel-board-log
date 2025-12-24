@@ -10,19 +10,19 @@ const route = useRoute();
   <div class="tooltip tooltip-right" :data-tip="isShowLabel ? undefined : props.label">
     <NuxtLink
       :to="props.url"
-      class="hover:cursor-pointer hover:bg-base-300 rounded-xs p-2 flex flex-1 truncate"
+      class="hover:cursor-pointer hover:bg-base-300 rounded-xs p-2 flex flex-1"
       :class="{ 'bg-base-200': route.path === props.url }"
     >
       <div
 
-        class="flex items-center gap-2"
+        class="flex items-center gap-2 truncate"
       >
         <Icon
           :name="props.name"
           size="1.5em"
           :class="iconColor"
         />
-        <span class="flex-1 whitespace-nowrap ">{{ props.label }}</span>
+        <span class="flex-1 whitespace-nowrap truncate">{{ props.label }}</span>
       </div>
     </NuxtLink>
   </div>
