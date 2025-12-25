@@ -130,6 +130,27 @@ onBeforeRouteUpdate((to) => {
         </template>
       </LocationCard>
     </div>
+    <div
+      v-if="route.name === 'dashboard-location-slug' && data?.locationLog.length"
+      class="location-list"
+    >
+      <LocationCard
+        v-for="log in data.locationLog"
+        :key="log.id"
+        :map-point="createMapPointFromLocationLog(log)"
+      >
+        <template #top>
+          <p class="text-sm italic text-gray-300">
+            <span v-if="log.startedAt !== log.endedAt">
+              {{ formatDate(log.startedAt) }} / {{ formatDate(log.endedAt) }}
+            </span>
+            <span v-if="log.startedAt === log.endedAt">
+              {{ formatDate(log.startedAt) }}
+            </span>
+          </p>
+        </template>
+      </LocationCard>
+    </div>
     <div v-if="!loading && errorMessage" class="alert alert-error">
       {{ errorMessage }}
     </div>
