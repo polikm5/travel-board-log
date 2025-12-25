@@ -1,6 +1,8 @@
 import type { MapPoints } from "~~/lib/types";
 import type { LngLatBounds } from "maplibre-gl";
 
+import { CENTER_BEIJIN } from "~~/lib/constants";
+
 export const useMapStore = defineStore("useMapStore", () => {
   // const route = useRoute();
   const router = useRouter();
@@ -34,6 +36,10 @@ export const useMapStore = defineStore("useMapStore", () => {
     effect(() => {
       const firstPoint = mapItems.value[0];
       if (!firstPoint) {
+        mapInstance.map?.flyTo({
+          center: CENTER_BEIJIN,
+          zoom: 2,
+        });
         return;
       }
 
