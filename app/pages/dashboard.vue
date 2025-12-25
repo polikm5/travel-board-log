@@ -31,13 +31,13 @@ effect(() => {
     sideBarLocationStore.topSideBarItems = [
       {
         id: "link-dashboard",
-        label: "locations",
+        label: "地点",
         name: "tabler:map",
         url: "/dashboard",
       },
       {
         id: "link-add-location",
-        label: "Add Location",
+        label: "添加地点",
         name: "tabler:map-plus",
         url: "/dashboard/add",
       },
@@ -47,9 +47,41 @@ effect(() => {
     sideBarLocationStore.topSideBarItems = [
       {
         id: "link-dashboard",
-        label: "Back to locations",
+        label: "返回列表",
         name: "tabler:arrow-left",
         url: "/dashboard",
+      },
+
+    ];
+    if (currentLocation.value && currentLocationStatus.value !== "pending") {
+      sideBarLocationStore.topSideBarItems.push({
+        id: "link-view-location",
+        label: "查看地点",
+        name: "tabler:map-plus",
+        url: { name: "dashboard-location-slug", params: { slug: route.params.slug } },
+      }, {
+        id: "link-edit-location",
+        label: "编辑地点",
+        name: "tabler:pencil-cog",
+        url: { name: "dashboard-location-slug-edit", params: { slug: route.params.slug } },
+      }, {
+        id: "link-add-location-log",
+        label: "添加地点日志",
+        name: "tabler:circle-plus-filled",
+        url: { name: "dashboard-location-slug-add", params: { slug: route.params.slug } },
+      });
+    }
+  }
+  else if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || "")) {
+    sideBarLocationStore.topSideBarItems = [
+      {
+        id: "link-location",
+        label: `返回日志列表`,
+        name: "tabler:arrow-left",
+        url: {
+          name: "dashboard-location-slug",
+          params: { slug: route.params.slug },
+        },
       },
 
     ];
