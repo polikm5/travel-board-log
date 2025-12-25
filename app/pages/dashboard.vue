@@ -88,19 +88,19 @@ effect(() => {
     if (currentLocation.value && currentLocationStatus.value !== "pending") {
       sideBarLocationStore.topSideBarItems.push({
         id: "link-view-location-log",
-        label: "View Location-Log",
+        label: "查看日志",
         name: "tabler:map-plus",
-        url: { name: "dashboard-location-slug", params: { slug: route.params.slug } },
+        url: { name: "dashboard-location-slug-id", params: { slug: route.params.slug, id: route.params.id } },
       }, {
         id: "link-add-location-log",
-        label: "Add Location-Log",
+        label: "添加日志",
         name: "tabler:circle-plus-filled",
         url: { name: "dashboard-location-slug-add", params: { slug: route.params.slug } },
       }, {
         id: "link-edit-location",
-        label: "Edit Location",
+        label: "编辑日志",
         name: "tabler:pencil-cog",
-        url: { name: "dashboard-location-slug-edit", params: { slug: route.params.slug } },
+        url: { name: "dashboard-location-slug-id-edit", params: { slug: route.params.slug, id: route.params.id } },
       });
     }
   }

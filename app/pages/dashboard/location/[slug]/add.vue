@@ -4,8 +4,8 @@ import type { InsertLocationLog } from "~~/lib/db/schema";
 import { CENTER_BEIJIN } from "~~/lib/constants";
 
 const locationStore = useLocationStore();
-const startedAt = 1766378673526;
-const endedAt = 1766465075089;
+const startedAt = Date.now();
+const endedAt = startedAt + 86400000;
 const route = useRoute();
 const { $csrfFetch } = useNuxtApp();
 async function onSubmit(values: InsertLocationLog) {
