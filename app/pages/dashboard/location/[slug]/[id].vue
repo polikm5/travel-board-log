@@ -9,10 +9,19 @@ const errorMessage = computed(() => error.value?.statusMessage || "");
 onMounted(() => {
   locationStore.refreshCurrentLocationLog();
 });
+
+onBeforeRouteUpdate((to) => {
+  if (to.name === "dashboard-location-slug-id") {
+    locationStore.refreshCurrentLocationLog();
+  }
+});
 </script>
 
 <template>
   <div class="page-content-top">
+    <div v-if="!loading && errorMessage" class="alert alert-error">
+      {{ errorMessage }}
+    </div>
     <div v-if="loading" class="loading loading-xl" />
     <div v-if="route.name === 'dashboard-location-slug-id' && !loading && data">
       <p class="text-sm italic text-gray-300">
@@ -61,8 +70,8 @@ onMounted(() => {
         {{ data?.description }}
       </div>
     </div>
-    <div v-if="!loading && errorMessage" class="alert alert-error">
-      {{ errorMessage }}
+    <div v-else>
+      <NuxtPage />
     </div>
   </div>
 </template>
