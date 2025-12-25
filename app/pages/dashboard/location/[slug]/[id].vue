@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import type { FetchError } from "ofetch";
+
 import { formatDate } from "~~/utils/format-date";
 
 const route = useRoute();
 const locationStore = useLocationStore();
 const { currentLocationLog: data, currentLocationLogError: error, currentLocationLogStatus: status } = storeToRefs(locationStore);
-const loading = computed(() => status.value === "pending");
 const errorMessage = computed(() => error.value?.statusMessage || "");
+const isOpen = ref(false);
+const deleteLoading = ref(false);
+const deleteError = ref("");
+const loading = computed(() => status.value === "pending" || deleteLoading.value);
 onMounted(() => {
   locationStore.refreshCurrentLocationLog();
 });
@@ -15,6 +20,32 @@ onBeforeRouteUpdate((to) => {
     locationStore.refreshCurrentLocationLog();
   }
 });
+
+function onClose() {
+  isOpen.value = false;
+}
+function openDialog() {
+  (document.activeElement as HTMLAnchorElement).blur();
+  isOpen.value = true;
+}
+async function onConfirm() {
+  try {
+    deleteLoading.value = true;
+    isOpen.value = false;
+    await $fetch(`/api/location/${route.params.slug}/${route.params.id}`, {
+      method: "delete",
+    });
+    deleteLoading.value = false;
+    navigateTo({
+      name: "dashboard-location-slug",
+      params: { slug: route.params.slug },
+    });
+  }
+  catch (e) {
+    const error = e as FetchError;
+    deleteError.value = error.statusMessage || "An unknown error occurred";
+  }
+}
 </script>
 
 <template>
@@ -44,7 +75,14 @@ onBeforeRouteUpdate((to) => {
           </div>
           <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
             <li>
-              <NuxtLink>
+              <NuxtLink
+                :to="{
+                  name: 'dashboard-location-slug-id-edit',
+                  params: {
+                    id: route.params.id,
+                  },
+                }"
+              >
                 <Icon
                   name="tabler:pencil"
                   size="16"
@@ -54,7 +92,7 @@ onBeforeRouteUpdate((to) => {
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink>
+              <NuxtLink @click="openDialog">
                 <Icon
                   name="tabler:trash"
                   size="16"
@@ -73,5 +111,15 @@ onBeforeRouteUpdate((to) => {
     <div v-else>
       <NuxtPage />
     </div>
+
+    <AppDialog
+      title="删除"
+      desc="你确定要删除此项吗?"
+      :is-open="isOpen"
+      confirm-label="确定"
+      confirm-class="btn-primary"
+      @on-close="onClose"
+      @on-confirm="onConfirm"
+    />
   </div>
 </template>

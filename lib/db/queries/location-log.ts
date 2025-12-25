@@ -25,14 +25,24 @@ export async function findLocationLog(id: number, userId: number) {
   return log;
 }
 
-export async function updateLocationLogById(id: number, updateable: InsertLocationLog, userId: number) {
+export async function updateLocationLogById(locationLogId: number, updateable: InsertLocationLog, userId: number) {
   const [updated] = await db.update(locationLog).set({
     ...updateable,
   }).where(
     and(
-      eq(locationLog.id, id),
+      eq(locationLog.id, locationLogId),
       eq(locationLog.userId, userId),
     ),
   ).returning();
   return updated;
+}
+
+export async function deleteLocationLogById(locationLogId: number, userId: number) {
+  const [deleted] = await db.delete(locationLog).where(
+    and(
+      eq(locationLog.id, locationLogId),
+      eq(locationLog.userId, userId),
+    ),
+  ).returning();
+  return deleted;
 }
