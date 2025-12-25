@@ -14,14 +14,14 @@ const authStore = useAuthStore();
             Keep track of your travels and adventures.Add locations,photos,and notes to create a digital journal of your
             journeys.
           </p>
+          <AuthButton v-if="!authStore.user" />
           <NuxtLink
-            v-if="authStore.user"
+            v-else
             to="/dashboard"
             class="btn btn-primary"
           >
             Start Logging
           </NuxtLink>
-          <AuthButton v-else />
         </div>
       </div>
     </div>

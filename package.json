@@ -34,7 +34,7 @@
     "drizzle-zod": "^0.8.3",
     "maplibre-gl": "^5.14.0",
     "nanoid": "^5.1.6",
-    "nuxt": "^4.2.0",
+    "nuxt": "^4.2.2",
     "nuxt-csurf": "^1.6.5",
     "nuxt-maplibre": "^1.2.0",
     "pinia": "^3.0.4",

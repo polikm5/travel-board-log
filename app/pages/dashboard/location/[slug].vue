@@ -5,19 +5,17 @@ import type { FetchError } from "ofetch";
 import { formatDate } from "~~/utils/format-date";
 import { createMapPointFromLocationLog } from "~~/utils/map-points";
 
-const locationStore = useLocationStore();
-const { currentLocationLog: data, currentLocationError: error, currentLocationStatus: status } = storeToRefs(locationStore);
 const route = useRoute();
-// const locationUrlWithSlug = computed(() => `/api/location/${route.params.slug}`);
-// const { data, status, error } = await useFetch<SelectLocationWithLogs>(locationUrlWithSlug, {
-//   lazy: true,
-// });
-// locationStore.currentLocationLog = data.value;
+const locationStore = useLocationStore();
+const { currentLocation: data, currentLocationError: error, currentLocationStatus: status } = storeToRefs(locationStore);
 const isOpen = ref(false);
 const deleteLoading = ref(false);
 const deleteError = ref("");
 const loading = computed(() => status.value === "pending" || deleteLoading.value);
 const errorMessage = computed(() => error.value?.statusMessage || deleteError.value);
+onMounted(() => {
+  locationStore.refreshCurrentLocation();
+});
 function onClose() {
   isOpen.value = false;
 }
@@ -40,13 +38,10 @@ async function onConfirm() {
     deleteError.value = error.statusMessage || "An unknown error occurred";
   }
 }
-onMounted(() => {
-  locationStore.refreshLocationLog();
-});
 
 onBeforeRouteUpdate((to) => {
   if (to.name === "dashboard-location-slug") {
-    locationStore.refreshLocationLog();
+    locationStore.refreshCurrentLocation();
   }
 });
 </script>
@@ -114,8 +109,26 @@ onBeforeRouteUpdate((to) => {
         </NuxtLink>
       </div>
     </div>
-    <div v-if="route.name !== 'dashboard-location-slug'">
-      <NuxtPage />
+    <div
+      v-if="route.name === 'dashboard-location-slug' && !loading && data?.locationLog.length"
+      class="location-list"
+    >
+      <LocationCard
+        v-for="log in data.locationLog"
+        :key="log.id"
+        :map-point="createMapPointFromLocationLog(log, data.slug)"
+      >
+        <template #top>
+          <p class="text-sm italic text-gray-300">
+            <span v-if="log.startedAt !== log.endedAt">
+              {{ formatDate(log.startedAt) }} / {{ formatDate(log.endedAt) }}
+            </span>
+            <span v-if="log.startedAt === log.endedAt">
+              {{ formatDate(log.startedAt) }}
+            </span>
+          </p>
+        </template>
+      </LocationCard>
     </div>
     <div
       v-if="route.name === 'dashboard-location-slug' && data?.locationLog.length"
@@ -141,7 +154,9 @@ onBeforeRouteUpdate((to) => {
     <div v-if="!loading && errorMessage" class="alert alert-error">
       {{ errorMessage }}
     </div>
-
+    <div v-if="route.name !== 'dashboard-location-slug'">
+      <NuxtPage />
+    </div>
     <AppDialog
       title="删除"
       desc="你确定要删除此项吗?"
